@@ -6,7 +6,7 @@ interface Lender {
 }
 
 class LenderModel {
-    private static inquiries: Lender[] = [{
+    private static lenders: Lender[] = [{
         id: '1',
         name: 'Lender A',
         interestRate: 0.055, // 5%
@@ -24,7 +24,7 @@ class LenderModel {
     }];
 
     static getLenders(): Lender[] {
-        return LenderModel.inquiries;
+        return LenderModel.lenders;
     }
 }
 export default LenderModel;
