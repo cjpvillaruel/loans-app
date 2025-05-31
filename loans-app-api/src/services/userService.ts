@@ -1,8 +1,6 @@
 import { CreateUserDto, UpdateUserDto } from "../dto/userDto";
 import User from "../models/userModel";
 
-
-
 export class UserService {
     static createUser(data: CreateUserDto) {
         const user = User.createUser(data);
