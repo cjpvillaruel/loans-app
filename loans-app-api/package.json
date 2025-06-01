@@ -19,6 +19,7 @@
     "lint": "eslint 'src/**/*.ts'"
   },
   "dependencies": {
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "yup": "^1.6.1"
   }
 }
