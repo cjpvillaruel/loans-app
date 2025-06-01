@@ -37,6 +37,7 @@ const STEPS = [
     Component: LoanOptionsForm,
   },
 ];
+
 const ApplicationPage = () => {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -51,6 +52,12 @@ const ApplicationPage = () => {
         },
         body: JSON.stringify(data),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch loan offers");
+      }
+
       const loanOffers: LoanOffer[] = await response.json();
       return loanOffers;
     },
@@ -69,15 +76,13 @@ const ApplicationPage = () => {
     reValidateMode: "onChange",
     resolver: yupResolver(APPLICATION_SCHEMA) as Resolver<ApplicationForm>,
   });
+
   const { trigger, getValues } = methods;
 
   const handleNext = useCallback(() => {
     trigger(STEPS[activeStep].fields as (keyof ApplicationForm)[]).then(
       (isValid) => {
-        if (!isValid) {
-          console.error("Form is invalid for step:", activeStep);
-          return;
-        } else {
+        if (isValid) {
           if (activeStep < STEPS.length - 1) {
             setActiveStep((prev) => prev + 1);
             if (activeStep === LOAN_DETAILS_STEP) {
@@ -106,13 +111,16 @@ const ApplicationPage = () => {
     },
     [methods.formState.errors]
   );
+  console.log(data);
 
   return (
     <div className="application-page">
       <Stepper activeStep={activeStep}>
         {STEPS.map((stepDetails) => (
           <Step key={stepDetails.step}>
-            <StepLabel>{stepDetails.label}</StepLabel>
+            <StepLabel data-testid={stepDetails.label}>
+              {stepDetails.label}
+            </StepLabel>
           </Step>
         ))}
       </Stepper>
@@ -140,6 +148,7 @@ const ApplicationPage = () => {
         <Button
           style={{ marginRight: "8px" }}
           variant="contained"
+          data-testid="previous-button"
           color="primary"
           onClick={handlePrevious}
           disabled={!isFormValid(activeStep - 1)}
@@ -150,10 +159,11 @@ const ApplicationPage = () => {
       <Button
         variant="contained"
         color="primary"
+        data-testid="next-button"
         onClick={handleNext}
         disabled={!isFormValid(activeStep)}
       >
-        {activeStep < STEPS.length - 1 ? "Next" : "Submit"}
+        {activeStep === PERSONAL_INFORMATION_STEP ? "Next" : "Submit"}
       </Button>
     </div>
   );

@@ -7,7 +7,7 @@ export const APPLICATION_SCHEMA = yup
     emailAddress: yup
       .string()
       .required("Email Address is required")
-      .email("Invalid email address"),
+      .email("Invalid Email Address"),
     employmentStatus: yup
       .mixed<EmploymentStatus>()
       .oneOf(["employed", "unemployed", "self-employed"] as const)
@@ -15,19 +15,19 @@ export const APPLICATION_SCHEMA = yup
 
     companyName: yup.string().when("employmentStatus", {
       is: "employed",
-      then: (schema) => schema.required("Company name is required"),
+      then: (schema) => schema.required("Company Name is required"),
       otherwise: (schema) => schema.notRequired(),
     }),
     loanPurpose: yup.string().required("Loan Purpose is required"),
     loanAmount: yup
       .number()
-      .typeError("Loan Amount must be a number")
       .required("Loan Amount is required")
+      .typeError("Loan Amount must be a number")
       .min(2000, "Minimum loan amount is $2000"),
     depositAmount: yup
       .number()
-      .typeError("Deposit must be a number")
       .required("Deposit is required")
+      .typeError("Deposit must be a number")
       .min(0, "Deposit cannot be negative")
       .when("loanAmount", ([loanAmount], schema) => {
         return loanAmount

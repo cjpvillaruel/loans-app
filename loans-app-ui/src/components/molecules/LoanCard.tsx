@@ -18,7 +18,7 @@ const LoanCard = ({ loanOffer, onClick }: LoanCardProps) => {
       <h2>{loanOffer.lenderName}</h2>
       <p>Monthly Repayment: ${loanOffer.monthlyRepayment.toFixed(2)}</p>
       <p>Interest Rate: {loanOffer.interestRate}%</p>
-      <p>Term: {loanOffer.loanTerm}</p>
+      <p>Term: {loanOffer.loanTerm} years</p>
       <div>
         Fees:
         {loanOffer.fees ? (

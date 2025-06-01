@@ -12,13 +12,17 @@ const LoanOptionsForm = ({
   error,
 }: LoanOptionsFormProps) => {
   if (error) {
-    return <div>Error loading loan options. Please try again.</div>;
+    return (
+      <div style={{ margin: 20 }}>
+        Error loading loan options. Please try again.
+      </div>
+    );
   }
   if (loading) {
-    return <div>Loading...</div>;
+    return <div style={{ margin: 20 }}>Loading...</div>;
   }
   if (loanOffers.length === 0) {
-    return <div>No loan options available</div>;
+    return <div style={{ margin: 20 }}>No loan options available</div>;
   }
   return (
     <div>

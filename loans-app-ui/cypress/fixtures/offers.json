@@ -1,0 +1,29 @@
+[
+  {
+    "lenderName": "Lender A",
+    "id": "offer-1",
+    "amount": 1000,
+    "interestRate": 5.0,
+    "termMonths": 12,
+    "monthlyRepayment": 85.61,
+    "totalPayment": 1027.32
+  },
+  {
+    "lenderName": "Lender B",
+    "id": "offer-2",
+    "amount": 2000,
+    "interestRate": 4.5,
+    "termMonths": 24,
+    "monthlyRepayment": 87.91,
+    "totalPayment": 2110.04
+  },
+  {
+    "lenderName": "Lender C",
+    "id": "offer-3",
+    "amount": 3000,
+    "interestRate": 6.0,
+    "termMonths": 36,
+    "monthlyRepayment": 91.67,
+    "totalPayment": 3299.12
+  }
+]

@@ -50,6 +50,7 @@ const UserForm = () => {
         error={!!errors.employmentStatus?.message}
         value={watch("employmentStatus")}
         helperText={errors.employmentStatus?.message}
+        data-testid="employment-status-select"
         onChange={(e) => {
           const value = e.target.value as EmploymentStatus;
           setValue("employmentStatus", value, {
@@ -67,9 +68,18 @@ const UserForm = () => {
           }
         }}
       >
-        <MenuItem value="employed">Employed</MenuItem>
-        <MenuItem value="unemployed">Unemployed</MenuItem>
-        <MenuItem value="self-employed">Self-Employed</MenuItem>
+        <MenuItem value="employed" data-testid="employment-status-employed">
+          Employed
+        </MenuItem>
+        <MenuItem value="unemployed" data-testid="employment-status-unemployed">
+          Unemployed
+        </MenuItem>
+        <MenuItem
+          value="self-employed"
+          data-testid="employment-status-self-employed"
+        >
+          Self-Employed
+        </MenuItem>
       </TextField>
 
       {watch("employmentStatus") === "employed" && (

@@ -23,6 +23,7 @@ const LoanDetailsForm = () => {
       <TextField
         label="Loan Purpose"
         select
+        data-testid="loan-purpose-select"
         {...register("loanPurpose")}
         value={watch("loanPurpose")}
         error={!!errors.loanPurpose?.message}
@@ -44,16 +45,27 @@ const LoanDetailsForm = () => {
           }
         }}
       >
-        <MenuItem value="vehicle">Vehicle</MenuItem>
-        <MenuItem value="homeImprovement">Home Improvement</MenuItem>
-        <MenuItem value="others">Others</MenuItem>
+        <MenuItem value="vehicle" data-testid="loan-purpose-vehicle">
+          Vehicle
+        </MenuItem>
+        <MenuItem
+          value="homeImprovement"
+          data-testid="loan-purpose-home-improvement"
+        >
+          Home Improvement
+        </MenuItem>
+        <MenuItem value="others" data-testid="loan-purpose-others">
+          Others
+        </MenuItem>
       </TextField>
       <TextField
+        data-testid="loan-amount-input"
         type="number"
         label="Loan Amount"
         {...register("loanAmount")}
         onChange={(e) => {
-          const value = parseFloat(e.target.value);
+          const value =
+            e.target.value.length > 0 ? parseFloat(e.target.value) : 0;
           setValue("loanAmount", value, {
             shouldValidate: true,
             shouldDirty: true,
@@ -65,11 +77,14 @@ const LoanDetailsForm = () => {
       />
       {watch("loanPurpose") === "vehicle" && (
         <TextField
+          data-testid="deposit-amount-input"
           type="number"
           label="Deposit"
           {...register("depositAmount")}
           onChange={(e) => {
-            const value = parseFloat(e.target.value);
+            const value =
+              e.target.value.length > 0 ? parseFloat(e.target.value) : 0;
+
             setValue("depositAmount", value, {
               shouldValidate: true,
               shouldDirty: true,
