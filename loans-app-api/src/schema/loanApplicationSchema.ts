@@ -8,7 +8,7 @@ export const loanApplicationSchema = yup
     emailAddress: yup
       .string()
       .required('Email Address is required')
-      .email('Invalid email address'),
+      .email('Invalid Email Address'),
     employmentStatus: yup
       .mixed<EmploymentStatus>()
       .oneOf(['employed', 'unemployed', 'self-employed'] as const)

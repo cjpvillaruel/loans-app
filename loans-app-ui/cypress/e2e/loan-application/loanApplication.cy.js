@@ -19,13 +19,9 @@ describe("Loan Application", () => {
     });
 
     it("should call the API and display offers when all fields are valid", () => {
-      cy.intercept(
-        "POST",
-        "http://localhost:3000/api/loanApplications/offers",
-        {
-          fixture: "offers",
-        }
-      ).as("getOffers");
+      cy.intercept("POST", "/api/loanApplications/offers", {
+        fixture: "offers",
+      }).as("getOffers");
 
       cy.get('[data-testid="next-button"]').click();
       cy.contains("Lender A").should("exist");
@@ -34,14 +30,10 @@ describe("Loan Application", () => {
     });
 
     it("should display an error message when API call fails", () => {
-      cy.intercept(
-        "POST",
-        "http://localhost:3000/api/loanApplications/offers",
-        {
-          statusCode: 500,
-          body: { error: "Internal Server Error", data: null },
-        }
-      ).as("getOffersError");
+      cy.intercept("POST", "/api/loanApplications/offers", {
+        statusCode: 500,
+        body: { error: "Internal Server Error", data: null },
+      }).as("getOffersError");
 
       cy.get('[data-testid="next-button"]').click();
       cy.contains("Error loading loan options. Please try again.").should(
@@ -50,14 +42,10 @@ describe("Loan Application", () => {
     });
 
     it("should display a message when there are no options available", () => {
-      cy.intercept(
-        "POST",
-        "http://localhost:3000/api/loanApplications/offers",
-        {
-          statusCode: 200,
-          body: [],
-        }
-      ).as("getOffersError");
+      cy.intercept("POST", "/api/loanApplications/offers", {
+        statusCode: 200,
+        body: [],
+      }).as("getOffersError");
 
       cy.get('[data-testid="next-button"]').click();
       cy.contains("No loan options available").should("exist");
