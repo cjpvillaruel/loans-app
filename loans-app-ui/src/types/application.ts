@@ -1,4 +1,5 @@
 export type EmploymentStatus = "employed" | "unemployed" | "self-employed";
+
 export type ApplicationForm = {
   firstName: string;
   lastName: string;
