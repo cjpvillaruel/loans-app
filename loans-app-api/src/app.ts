@@ -3,16 +3,59 @@ import { errorHandler } from './middlewares/errorHandler';
 import router from './routes/userRoutes';
 const cors = require('cors');
 import loanApplicationRouter from './routes/loanApplicationRoutes';
+import helmet from 'helmet';
 
 const app = express();
 const corsOptions = {
   origin: ['http://localhost:5173'], // Allow requests from example.com and localhost:3001
 };
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors(corsOptions));
 
 app.use(express.json());
+const helmetSettings = helmet({
+  // Content Security Policy
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", 'data:'],
+      fontSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+    },
+  },
+  // Cross-Origin settings
+  crossOriginEmbedderPolicy: false, // Set to true in production
+  crossOriginOpenerPolicy: { policy: 'same-origin' },
+  crossOriginResourcePolicy: { policy: 'same-site' },
+  originAgentCluster: true,
 
+  // Transport Security
+  strictTransportSecurity: {
+    maxAge: 15552000, // 180 days
+    includeSubDomains: true,
+    preload: true,
+  },
+
+  // Miscellaneous Security Headers
+  xContentTypeOptions: true,
+  xDnsPrefetchControl: { allow: false },
+  xDownloadOptions: true,
+  xFrameOptions: { action: 'deny' },
+  xPermittedCrossDomainPolicies: { permittedPolicies: 'none' },
+  xXssProtection: true,
+
+  // Remove server fingerprinting
+  hidePoweredBy: true,
+
+  // Referrer Policy
+  referrerPolicy: { policy: 'no-referrer' },
+});
+
+app.use(helmetSettings);
 // Routes
 app.use('/api/users', router);
 app.use('/api/loanApplications', loanApplicationRouter);
