@@ -35,7 +35,7 @@ const LoanDetailsForm = () => {
             shouldTouch: true,
           });
           if (value === "vehicle") {
-            setValue("deposit", 0, {
+            setValue("depositAmount", 0, {
               shouldValidate: true,
               shouldDirty: true,
               shouldTouch: true,
@@ -66,17 +66,17 @@ const LoanDetailsForm = () => {
         <TextField
           type="number"
           label="Deposit"
-          {...register("deposit")}
+          {...register("depositAmount")}
           onChange={(e) => {
             const value = parseFloat(e.target.value);
-            setValue("deposit", value, {
+            setValue("depositAmount", value, {
               shouldValidate: true,
               shouldDirty: true,
               shouldTouch: true,
             });
           }}
-          error={!!errors.deposit?.message}
-          helperText={errors.deposit?.message}
+          error={!!errors.depositAmount?.message}
+          helperText={errors.depositAmount?.message}
         />
       )}
       <TextField

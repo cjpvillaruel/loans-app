@@ -2,53 +2,18 @@ import { Button, Step, StepLabel, Stepper } from "@mui/material";
 import UserForm from "../organisms/UserForm";
 import { useCallback, useState } from "react";
 import { FormProvider, useForm, type Resolver } from "react-hook-form";
-import * as yup from "yup";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import LoanDetailsForm from "../organisms/LoanDetailsForm";
-import type {
-  ApplicationForm,
-  EmploymentStatus,
-} from "../../types/application";
+import type { ApplicationForm } from "../../types/application";
 import LoanOptionsForm from "../organisms/LoanOptionsForm";
+import { APPLICATION_SCHEMA } from "../../constants/applicationSchema";
+import { useMutation } from "@tanstack/react-query";
+import type { LoanOffer } from "../../types/loanOffer";
 
 const PERSONAL_INFORMATION_STEP = 0;
 const LOAN_DETAILS_STEP = 1;
 const SELECT_LENDER_STEP = 2;
-
-const schema = yup
-  .object({
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
-    employmentStatus: yup
-      .mixed<EmploymentStatus>()
-      .oneOf(["employed", "unemployed", "self-employed"] as const)
-      .required(),
-    companyName: yup.string().when("employmentStatus", {
-      is: "employed",
-      then: (schema) => schema.required("Company name is required"),
-      otherwise: (schema) => schema.notRequired(),
-    }),
-    loanPurpose: yup.string().required(),
-    loanAmount: yup
-      .number()
-      .typeError("Loan Amount must be a number")
-      .required()
-      .min(2000, "Minimum loan amount is $2000"),
-    deposit: yup
-      .number()
-      .typeError("Deposit must be a number")
-      .required("Deposit is required")
-      .min(0, "Deposit cannot be negative")
-      .when("loanAmount", ([loanAmount], schema) => {
-        return schema.max(loanAmount, "Deposit cannot exceed loan amount");
-      }),
-    loanTerm: yup
-      .number()
-      .required()
-      .min(1, "Minimum loan term is 1 year")
-      .max(7, "Maximum loan term is 7 years"),
-  })
-  .required();
 
 const STEPS = [
   {
@@ -75,18 +40,34 @@ const STEPS = [
 const ApplicationPage = () => {
   const [activeStep, setActiveStep] = useState(0);
 
+  const { data, status, error, mutate } = useMutation({
+    mutationKey: ["offers"],
+    mutationFn: async (data: ApplicationForm) => {
+      const url = `http://localhost:3000/api/loanApplications/offers`; // Adjust the URL as needed
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const loanOffers: LoanOffer[] = await response.json();
+      return loanOffers;
+    },
+  });
+
   const methods = useForm<ApplicationForm>({
     defaultValues: {
       firstName: "",
       lastName: "",
       employmentStatus: "employed",
-      deposit: 0,
+      depositAmount: 0,
       loanPurpose: "vehicle",
       loanTerm: 1,
     },
     mode: "onChange",
     reValidateMode: "onChange",
-    resolver: yupResolver(schema) as Resolver<ApplicationForm>,
+    resolver: yupResolver(APPLICATION_SCHEMA) as Resolver<ApplicationForm>,
   });
   const { trigger, getValues } = methods;
 
@@ -99,6 +80,10 @@ const ApplicationPage = () => {
         } else {
           if (activeStep < STEPS.length - 1) {
             setActiveStep((prev) => prev + 1);
+            if (activeStep === LOAN_DETAILS_STEP) {
+              const formData = getValues();
+              mutate(formData); // Fetch offers when reaching the last step
+            }
           }
         }
       }
@@ -132,13 +117,15 @@ const ApplicationPage = () => {
         ))}
       </Stepper>
       <FormProvider {...methods}>
-        {STEPS.map((stepDetails, index) => {
+        {[PERSONAL_INFORMATION_STEP, LOAN_DETAILS_STEP].map((step) => {
+          const stepDetails = STEPS[step];
+          if (!stepDetails) return null;
           const Component = stepDetails.Component;
           return (
             <div
               key={stepDetails.step}
               style={{
-                display: activeStep === index ? "block" : "none",
+                display: activeStep === step ? "block" : "none",
                 marginTop: "16px",
               }}
             >
@@ -146,6 +133,13 @@ const ApplicationPage = () => {
             </div>
           );
         })}
+        {activeStep === SELECT_LENDER_STEP && (
+          <LoanOptionsForm
+            loading={status === "pending"}
+            loanOffers={data ?? []}
+            error={error}
+          />
+        )}
       </FormProvider>
       {activeStep > 0 && (
         <Button

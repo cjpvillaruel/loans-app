@@ -1,29 +1,29 @@
 import type { LoanOffer } from "../../types/loanOffer";
 import LoanCard from "../molecules/LoanCard";
 
-const LoanOptionsForm = () => {
-  const loanOptions: LoanOffer[] = [
-    {
-      companyId: "1",
-      companyName: "Bank A",
-      loanAmount: 10000,
-      interestRate: 0.05,
-      loanTerm: 12,
-      monthlyPayment: 856.07,
-    },
-    {
-      companyId: "2",
-      companyName: "Bank B",
-      loanAmount: 15000,
-      interestRate: 0.04,
-      loanTerm: 24,
-      monthlyPayment: 659.96,
-    },
-  ];
+interface LoanOptionsFormProps {
+  loanOffers: LoanOffer[];
+  loading?: boolean;
+  error: Error | null;
+}
+const LoanOptionsForm = ({
+  loanOffers,
+  loading,
+  error,
+}: LoanOptionsFormProps) => {
+  if (error) {
+    return <div>Error loading loan options. Please try again.</div>;
+  }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (loanOffers.length === 0) {
+    return <div>No loan options available</div>;
+  }
   return (
     <div>
-      {loanOptions.map((offer) => (
-        <LoanCard loanOffer={offer} onClick={() => {}} key={offer.companyId} />
+      {loanOffers.map((offer) => (
+        <LoanCard loanOffer={offer} onClick={() => {}} key={offer.lenderName} />
       ))}
     </div>
   );

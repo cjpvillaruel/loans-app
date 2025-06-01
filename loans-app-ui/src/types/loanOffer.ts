@@ -1,8 +1,14 @@
+export interface LoanOfferFees {
+  applicationFee?: number;
+  processingFee?: number;
+}
+
 export interface LoanOffer {
-  companyId: string; // Optional, as some offers may not have a company ID
-  companyName: string;
+  lenderId: string; // Optional, as some offers may not have a company ID
+  lenderName: string;
   loanAmount: number;
   interestRate: number;
   loanTerm: number;
-  monthlyPayment: number;
+  monthlyRepayment: number;
+  fees: LoanOfferFees;
 }

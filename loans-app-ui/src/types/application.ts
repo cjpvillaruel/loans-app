@@ -6,6 +6,6 @@ export type ApplicationForm = {
   companyName?: string;
   loanPurpose: string;
   loanAmount: number;
-  deposit: number;
+  depositAmount: number;
   loanTerm: number;
 };
