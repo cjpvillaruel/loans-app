@@ -1,5 +1,7 @@
 import LenderModel from '../models/lenderModel';
-import { LoanApplication } from '../models/loanApplicationModel';
+import LoanApplicationModel, {
+  LoanApplication,
+} from '../models/loanApplicationModel';
 import { Offer } from '../models/offerModel';
 
 function calculateMonthlyPayment(
@@ -21,6 +23,7 @@ class LoanApplicationService {
   static getOffers(loanApplication: Omit<LoanApplication, 'id'>): Offer[] {
     const lenders = LenderModel.getLenders();
 
+    LoanApplicationModel.createApplication(loanApplication);
     const offers = lenders.map((lender) => {
       const offer: Offer = {
         lenderId: lender.id,
@@ -38,6 +41,9 @@ class LoanApplicationService {
       return offer;
     });
     return offers;
+  }
+  static getApplications(): LoanApplication[] {
+    return LoanApplicationModel.listInquiries();
   }
 }
 

@@ -138,6 +138,7 @@ const ApplicationPage = () => {
       </FormProvider>
       {activeStep > 0 && (
         <Button
+          style={{ marginRight: "8px" }}
           variant="contained"
           color="primary"
           onClick={handlePrevious}

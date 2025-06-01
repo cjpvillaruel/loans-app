@@ -35,6 +35,13 @@ const UserForm = () => {
         helperText={errors.lastName?.message}
         error={!!errors.lastName?.message}
       />
+      <TextField
+        {...register("emailAddress")}
+        label="Email Address"
+        type="email"
+        helperText={errors.emailAddress?.message}
+        error={!!errors.emailAddress?.message}
+      />
 
       <TextField
         {...register("employmentStatus")}

@@ -1,8 +1,5 @@
-enum EmploymentStatus {
-  Employed = 'Employed',
-  SelfEmployed = 'SelfEmployed',
-  Unemployed = 'Unemployed',
-}
+import { v4 as uuidv4 } from 'uuid';
+import { EmploymentStatus } from './userModel';
 
 export interface LoanApplication {
   id: string;
@@ -19,23 +16,25 @@ export interface LoanApplication {
 }
 
 class LoanApplicationModel {
-  private static inquiries: LoanApplication[] = [];
+  private static applications: LoanApplication[] = [];
 
   static createApplication(data: Omit<LoanApplication, 'id'>): LoanApplication {
     const newInquiry: LoanApplication = {
-      id: (LoanApplicationModel.inquiries.length + 1).toString(),
+      id: uuidv4(),
       ...data,
     };
-    LoanApplicationModel.inquiries.push(newInquiry);
+    LoanApplicationModel.applications.push(newInquiry);
     return newInquiry;
   }
 
   static getInquiryById(id: string): LoanApplication | undefined {
-    return LoanApplicationModel.inquiries.find((inquiry) => inquiry.id === id);
+    return LoanApplicationModel.applications.find(
+      (inquiry) => inquiry.id === id,
+    );
   }
 
   static listInquiries(): LoanApplication[] {
-    return LoanApplicationModel.inquiries;
+    return LoanApplicationModel.applications;
   }
 }
 export default LoanApplicationModel;

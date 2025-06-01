@@ -10,4 +10,12 @@ export class LoanApplicationController {
       res.status(400).json({ message: (error as Error).message });
     }
   }
+  static async getApplications(req: Request, res: Response) {
+    try {
+      const applications = LoanApplicationService.getApplications();
+      res.status(200).json(applications);
+    } catch (error) {
+      res.status(400).json({ message: (error as Error).message });
+    }
+  }
 }

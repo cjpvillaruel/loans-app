@@ -5,6 +5,8 @@ import { loanApplicationSchema } from '../schema/loanApplicationSchema';
 
 const loanApplicationRouter = Router();
 
+loanApplicationRouter.get('/', LoanApplicationController.getApplications);
+
 loanApplicationRouter.post(
   '/offers',
   validate(loanApplicationSchema),

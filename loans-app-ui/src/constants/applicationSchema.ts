@@ -2,22 +2,27 @@ import * as yup from "yup";
 import type { EmploymentStatus } from "../types/application";
 export const APPLICATION_SCHEMA = yup
   .object({
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
+    firstName: yup.string().required("First Name is required"),
+    lastName: yup.string().required("Last Name is required"),
+    emailAddress: yup
+      .string()
+      .required("Email Address is required")
+      .email("Invalid email address"),
     employmentStatus: yup
       .mixed<EmploymentStatus>()
       .oneOf(["employed", "unemployed", "self-employed"] as const)
-      .required(),
+      .required("Employment Status is required"),
+
     companyName: yup.string().when("employmentStatus", {
       is: "employed",
       then: (schema) => schema.required("Company name is required"),
       otherwise: (schema) => schema.notRequired(),
     }),
-    loanPurpose: yup.string().required(),
+    loanPurpose: yup.string().required("Loan Purpose is required"),
     loanAmount: yup
       .number()
       .typeError("Loan Amount must be a number")
-      .required()
+      .required("Loan Amount is required")
       .min(2000, "Minimum loan amount is $2000"),
     depositAmount: yup
       .number()

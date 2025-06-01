@@ -1,11 +1,12 @@
 import express from 'express';
 import { errorHandler } from './middlewares/errorHandler';
-import router from './routes/userRoutes';
+
 const cors = require('cors');
 import loanApplicationRouter from './routes/loanApplicationRoutes';
 import helmet from 'helmet';
 
 const app = express();
+
 const corsOptions = {
   origin: ['http://localhost:5173'], // Allow requests from example.com and localhost:3001
 };
@@ -56,8 +57,8 @@ const helmetSettings = helmet({
 });
 
 app.use(helmetSettings);
+
 // Routes
-app.use('/api/users', router);
 app.use('/api/loanApplications', loanApplicationRouter);
 
 // Global error handler (should be after routes)
