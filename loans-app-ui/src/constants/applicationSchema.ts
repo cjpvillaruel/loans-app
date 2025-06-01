@@ -25,7 +25,9 @@ export const APPLICATION_SCHEMA = yup
       .required("Deposit is required")
       .min(0, "Deposit cannot be negative")
       .when("loanAmount", ([loanAmount], schema) => {
-        return schema.max(loanAmount, "Deposit cannot exceed loan amount");
+        return loanAmount
+          ? schema.max(loanAmount, "Deposit cannot exceed loan amount")
+          : schema;
       }),
     loanTerm: yup
       .number()

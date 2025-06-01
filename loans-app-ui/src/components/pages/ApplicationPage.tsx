@@ -117,29 +117,24 @@ const ApplicationPage = () => {
         ))}
       </Stepper>
       <FormProvider {...methods}>
-        {[PERSONAL_INFORMATION_STEP, LOAN_DETAILS_STEP].map((step) => {
-          const stepDetails = STEPS[step];
-          if (!stepDetails) return null;
+        {STEPS.map((stepDetails) => {
           const Component = stepDetails.Component;
           return (
             <div
               key={stepDetails.step}
               style={{
-                display: activeStep === step ? "block" : "none",
+                display: activeStep === stepDetails.step ? "block" : "none",
                 marginTop: "16px",
               }}
             >
-              <Component />
+              <Component
+                loading={status === "pending"}
+                loanOffers={data ?? []}
+                error={error}
+              />
             </div>
           );
         })}
-        {activeStep === SELECT_LENDER_STEP && (
-          <LoanOptionsForm
-            loading={status === "pending"}
-            loanOffers={data ?? []}
-            error={error}
-          />
-        )}
       </FormProvider>
       {activeStep > 0 && (
         <Button

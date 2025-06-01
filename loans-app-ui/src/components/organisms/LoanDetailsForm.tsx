@@ -34,7 +34,8 @@ const LoanDetailsForm = () => {
             shouldDirty: true,
             shouldTouch: true,
           });
-          if (value === "vehicle") {
+
+          if (value !== "vehicle") {
             setValue("depositAmount", 0, {
               shouldValidate: true,
               shouldDirty: true,
@@ -62,7 +63,7 @@ const LoanDetailsForm = () => {
         error={!!errors.loanAmount?.message}
         helperText={errors.loanAmount?.message}
       />
-      {watch("loanPurpose") !== "vehicle" && (
+      {watch("loanPurpose") === "vehicle" && (
         <TextField
           type="number"
           label="Deposit"
