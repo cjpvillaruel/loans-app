@@ -1,7 +1,8 @@
 # Loans App
 
 This project consists of a loan application system with a React frontend and Node.js backend. Users can fill out a loan application form, and the system will display loan offers from various lenders.
-<img width="1287" alt="image" src="https://github.com/user-attachments/assets/2b87a869-c2e5-42aa-ab0c-6aa0bb24c87c" />
+
+![App Demo](./appDemo.gif)
 
 ## Project Structure
 
