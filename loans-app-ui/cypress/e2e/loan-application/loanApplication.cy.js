@@ -19,7 +19,7 @@ describe("Loan Application", () => {
     });
 
     it("should call the API and display offers when all fields are valid", () => {
-      cy.intercept("POST", "/api/loanApplications/offers", {
+      cy.intercept("POST", "/api/loan-applications/offers", {
         fixture: "offers",
       }).as("getOffers");
 
@@ -30,7 +30,7 @@ describe("Loan Application", () => {
     });
 
     it("should display an error message when API call fails", () => {
-      cy.intercept("POST", "/api/loanApplications/offers", {
+      cy.intercept("POST", "/api/loan-applications/offers", {
         statusCode: 500,
         body: { error: "Internal Server Error", data: null },
       }).as("getOffersError");
@@ -42,7 +42,7 @@ describe("Loan Application", () => {
     });
 
     it("should display a message when there are no options available", () => {
-      cy.intercept("POST", "/api/loanApplications/offers", {
+      cy.intercept("POST", "/api/loan-applications/offers", {
         statusCode: 200,
         body: [],
       }).as("getOffersError");

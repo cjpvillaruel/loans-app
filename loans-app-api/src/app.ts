@@ -59,7 +59,7 @@ const helmetSettings = helmet({
 app.use(helmetSettings);
 
 // Routes
-app.use('/api/loanApplications', loanApplicationRouter);
+app.use('/api/loan-applications', loanApplicationRouter);
 
 // Global error handler (should be after routes)
 app.use(errorHandler);

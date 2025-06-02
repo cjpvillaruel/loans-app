@@ -42,7 +42,7 @@ const ApplicationPage = () => {
   const { data, status, error, mutate } = useMutation({
     mutationKey: ["offers"],
     mutationFn: async (data: ApplicationForm) => {
-      const url = `http://localhost:3000/api/loanApplications/offers`; // Adjust the URL as needed
+      const url = `http://localhost:3000/api/loan-applications/offers`; // Adjust the URL as needed
       const response = await fetch(url, {
         method: "POST",
         headers: {

@@ -51,7 +51,7 @@ describe("Loan Details", () => {
     });
 
     it("should submit the form when all fields are valid", () => {
-      cy.intercept("api/loanApplications/offers", {
+      cy.intercept("api/loan-applications/offers", {
         fixture: "offers",
       }).as("getOffers");
 
