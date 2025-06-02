@@ -69,12 +69,11 @@ The UI will run on [http://localhost:5173](http://localhost:5173)
 
 # Testing
 
-Run Cypress tests with
+With the app running on the side, run Cypress tests with
 
 ```bash
 cd loans-app-ui
 npm run cy:open
-
 ```
 
 ## Project Details
