@@ -1,8 +1,8 @@
-import app from '../app';
+import app from '../../app';
 import {
   VALID_LOAN_APPLICATION,
   WITHOUT_COMPANY_NAME,
-} from './fixtures/loanApplication.fixture';
+} from '../fixtures/loanApplication.fixture';
 
 import request from 'supertest';
 
