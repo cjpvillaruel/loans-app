@@ -25,7 +25,14 @@ const LoanOptionsForm = ({
     return <div style={{ margin: 20 }}>No loan options available</div>;
   }
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: 20,
+        flexWrap: "wrap",
+      }}
+    >
       {loanOffers.map((offer) => (
         <LoanCard loanOffer={offer} onClick={() => {}} key={offer.lenderName} />
       ))}

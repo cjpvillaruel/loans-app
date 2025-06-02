@@ -13,22 +13,34 @@ const FEE_MAPPER: Record<string, string> = {
 };
 
 const LoanCard = ({ loanOffer, onClick }: LoanCardProps) => {
+  const years = loanOffer.loanTerm > 1 ? "years" : "year";
   return (
     <Card sx={{ margin: 2, padding: 2 }}>
       <h2>{loanOffer.lenderName}</h2>
-      <p>Monthly Repayment: ${loanOffer.monthlyRepayment.toFixed(2)}</p>
-      <p>Interest Rate: {loanOffer.interestRate}%</p>
-      <p>Term: {loanOffer.loanTerm} years</p>
+      <p>
+        Monthly Repayment: <b>${loanOffer.monthlyRepayment.toFixed(2)}</b>
+      </p>
+      <p>
+        Interest Rate: <b>{loanOffer.interestRate}%</b>
+      </p>
+      <p>
+        Term:{" "}
+        <b>
+          {loanOffer.loanTerm} {years}
+        </b>
+      </p>
       <div>
         Fees:
         {loanOffer.fees ? (
           Object.entries(loanOffer.fees).map(([key, value]) => (
             <p style={{ margin: 0 }} key={key}>
-              {FEE_MAPPER[key] ?? ""}: ${value.toFixed(2)}
+              {FEE_MAPPER[key] ?? ""}: <b>${value.toFixed(2)}</b>
             </p>
           ))
         ) : (
-          <p style={{ margin: 0 }}>No Fees</p>
+          <p style={{ margin: 0 }}>
+            <b>No Fees</b>
+          </p>
         )}
       </div>
       <Button

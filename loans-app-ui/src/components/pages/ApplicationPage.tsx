@@ -1,40 +1,18 @@
 import { Button, Step, StepLabel, Stepper } from "@mui/material";
-import UserForm from "../organisms/UserForm";
+
 import { useCallback, useState } from "react";
 import { FormProvider, useForm, type Resolver } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import LoanDetailsForm from "../organisms/LoanDetailsForm";
 import type { ApplicationForm } from "../../types/application";
-import LoanOptionsForm from "../organisms/LoanOptionsForm";
 import { APPLICATION_SCHEMA } from "../../constants/applicationSchema";
 import { useMutation } from "@tanstack/react-query";
 import type { LoanOffer } from "../../types/loanOffer";
-
-const PERSONAL_INFORMATION_STEP = 0;
-const LOAN_DETAILS_STEP = 1;
-const VIEW_OFFERS = 2;
-
-const STEPS = [
-  {
-    step: PERSONAL_INFORMATION_STEP,
-    label: "Personal Information",
-    fields: ["firstName", "lastName", "employmentStatus", "companyName"],
-    Component: UserForm,
-  },
-  {
-    step: LOAN_DETAILS_STEP,
-    label: "Loan Details",
-    fields: ["loanPurpose", "loanAmount", "deposit", "loanTerm"],
-
-    Component: LoanDetailsForm,
-  },
-  {
-    step: VIEW_OFFERS,
-    label: "View Offers",
-    Component: LoanOptionsForm,
-  },
-];
+import {
+  LOAN_DETAILS_STEP,
+  PERSONAL_INFORMATION_STEP,
+  STEPS,
+} from "../../constants/applicationSteps";
 
 const ApplicationPage = () => {
   const [activeStep, setActiveStep] = useState(PERSONAL_INFORMATION_STEP);
@@ -141,27 +119,29 @@ const ApplicationPage = () => {
           );
         })}
       </FormProvider>
-      {activeStep > 0 && (
+      <div style={{ marginTop: "16px" }}>
+        {activeStep > 0 && (
+          <Button
+            style={{ marginRight: "8px" }}
+            variant="contained"
+            data-testid="previous-button"
+            color="primary"
+            onClick={handlePrevious}
+            disabled={!isFormValid(activeStep - 1)}
+          >
+            Previous
+          </Button>
+        )}
         <Button
-          style={{ marginRight: "8px" }}
           variant="contained"
-          data-testid="previous-button"
           color="primary"
-          onClick={handlePrevious}
-          disabled={!isFormValid(activeStep - 1)}
+          data-testid="next-button"
+          onClick={handleNext}
+          disabled={!isFormValid(activeStep) || status === "pending"}
         >
-          Previous
+          {activeStep === PERSONAL_INFORMATION_STEP ? "Next" : "Submit"}
         </Button>
-      )}
-      <Button
-        variant="contained"
-        color="primary"
-        data-testid="next-button"
-        onClick={handleNext}
-        disabled={!isFormValid(activeStep) || status === "pending"}
-      >
-        {activeStep === PERSONAL_INFORMATION_STEP ? "Next" : "Submit"}
-      </Button>
+      </div>
     </div>
   );
 };
