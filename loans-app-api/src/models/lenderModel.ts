@@ -17,7 +17,6 @@ class LenderModel {
       interestRate: 5, // 5%
       fees: {
         applicationFee: 100,
-        processingFee: 50,
       },
     },
     {
@@ -25,7 +24,6 @@ class LenderModel {
       name: 'Lender B',
       interestRate: 5.5, // 5%
       fees: {
-        applicationFee: 150,
         processingFee: 75,
       },
     },
