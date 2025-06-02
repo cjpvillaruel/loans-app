@@ -3,7 +3,6 @@
 This project consists of a loan application system with a React frontend and Node.js backend. Users can fill out a loan application form, and the system will display loan offers from various lenders.
 <img width="1287" alt="image" src="https://github.com/user-attachments/assets/2b87a869-c2e5-42aa-ab0c-6aa0bb24c87c" />
 
-
 ## Project Structure
 
 The project is divided into two main parts:
@@ -54,7 +53,13 @@ The API will run on http://localhost:3000
 npm install
 ```
 
-3. Start the development server:
+3. Setup env by creating an .env file based from the .env.sample.
+
+```
+VITE_API_URL=http://localhost:3000/api
+```
+
+4. Start the development server:
 
 ```bash
 npm run dev
