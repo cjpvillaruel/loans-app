@@ -13,13 +13,12 @@ import type { LoanOffer } from "../../types/loanOffer";
 
 const PERSONAL_INFORMATION_STEP = 0;
 const LOAN_DETAILS_STEP = 1;
-const SELECT_LENDER_STEP = 2;
+const VIEW_OFFERS = 2;
 
 const STEPS = [
   {
     step: PERSONAL_INFORMATION_STEP,
     label: "Personal Information",
-    description: "Enter your personal information",
     fields: ["firstName", "lastName", "employmentStatus", "companyName"],
     Component: UserForm,
   },
@@ -27,19 +26,18 @@ const STEPS = [
     step: LOAN_DETAILS_STEP,
     label: "Loan Details",
     fields: ["loanPurpose", "loanAmount", "deposit", "loanTerm"],
-    description: "Provide details about the loan you want",
+
     Component: LoanDetailsForm,
   },
   {
-    step: SELECT_LENDER_STEP,
-    label: "Select Lender",
-    description: "Choose a lender for your loan",
+    step: VIEW_OFFERS,
+    label: "View Offers",
     Component: LoanOptionsForm,
   },
 ];
 
 const ApplicationPage = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(PERSONAL_INFORMATION_STEP);
 
   const { data, status, error, mutate } = useMutation({
     mutationKey: ["offers"],
@@ -93,7 +91,7 @@ const ApplicationPage = () => {
         }
       }
     );
-  }, [activeStep, trigger, getValues]);
+  }, [activeStep, trigger, getValues, mutate]);
 
   const handlePrevious = useCallback(() => {
     if (activeStep > 0) {
@@ -111,7 +109,6 @@ const ApplicationPage = () => {
     },
     [methods.formState.errors]
   );
-  console.log(data);
 
   return (
     <div className="application-page">
@@ -161,7 +158,7 @@ const ApplicationPage = () => {
         color="primary"
         data-testid="next-button"
         onClick={handleNext}
-        disabled={!isFormValid(activeStep)}
+        disabled={!isFormValid(activeStep) || status === "pending"}
       >
         {activeStep === PERSONAL_INFORMATION_STEP ? "Next" : "Submit"}
       </Button>

@@ -27,13 +27,13 @@ class LoanApplicationModel {
     return newInquiry;
   }
 
-  static getInquiryById(id: string): LoanApplication | undefined {
+  static getApplicationById(id: string): LoanApplication | undefined {
     return LoanApplicationModel.applications.find(
       (inquiry) => inquiry.id === id,
     );
   }
 
-  static listInquiries(): LoanApplication[] {
+  static listApplications(): LoanApplication[] {
     return LoanApplicationModel.applications;
   }
 }

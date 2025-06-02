@@ -42,8 +42,9 @@ class LoanApplicationService {
     });
     return offers;
   }
+
   static getApplications(): LoanApplication[] {
-    return LoanApplicationModel.listInquiries();
+    return LoanApplicationModel.listApplications();
   }
 }
 
